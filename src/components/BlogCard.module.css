@@ -18,14 +18,22 @@
     transform: translateY(-2px);
   }
   
-  /* Left: Content */
+  /* Left: Image */
+  .cardImageContainer {
+    width: 180px;
+    height: 120px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  /* Right: Content */
   .cardContent {
     flex: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
-  
+
   .cardTitle {
     font-size: 1.25rem;
     font-weight: 700;
@@ -33,31 +41,23 @@
     color: #2c3e50;
     line-height: 1.4;
   }
-  
+
   .cardExcerpt {
     color: #555;
     margin-bottom: 0.75rem;
     line-height: 1.6;
     font-size: 0.95rem;
   }
-  
+
   .cardMeta {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  
+
   .cardDate {
     font-size: 0.85rem;
     color: #888;
-  }
-  
-  /* Right: Image */
-  .cardImageContainer {
-    flex: 1;
-    max-width: 180px;
-    border-radius: 0.5rem;
-    overflow: hidden;
   }
   
   .cardImage {

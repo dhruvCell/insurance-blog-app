@@ -12,7 +12,12 @@ interface BlogCardProps {
 export default function BlogCard({ id, title, headline, image, createdAt }: BlogCardProps) {
   return (
     <div className={styles.card}>
-      {/* Left: Content */}
+      {/* Left: Image */}
+      <div className={styles.cardImageContainer}>
+        <img src={image} alt={title} className={styles.cardImage} />
+      </div>
+
+      {/* Right: Content */}
       <div className={styles.cardContent}>
         <Link href={`/blogs/${id}`} className={styles.cardOverlay} aria-label={`Read more about ${title}`}>{title}</Link>
         <p className={styles.cardExcerpt}>{headline}</p>
@@ -25,13 +30,8 @@ export default function BlogCard({ id, title, headline, image, createdAt }: Blog
               day: "numeric",
             })}
           </span>
-          
-        </div>
-      </div>
 
-      {/* Right: Image */}
-      <div className={styles.cardImageContainer}>
-        <img src={image} alt={title} className={styles.cardImage} />
+        </div>
       </div>
     </div>
   );
