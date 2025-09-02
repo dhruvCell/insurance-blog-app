@@ -38,6 +38,8 @@ export default function BlogForm({ onSubmit, initialData }: BlogFormProps) {
   const [previewImage, setPreviewImage] = useState<string | null>(
     initialData?.image || null
   );
+  const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [isHtmlMode, setIsHtmlMode] = useState(false);
 
   const modules = {
     toolbar: [
@@ -116,11 +118,6 @@ export default function BlogForm({ onSubmit, initialData }: BlogFormProps) {
   return (
     <div className={styles.pageWrapper}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <h2 className={styles.formTitle}>✍️ Create a New Blog Post</h2>
-        <p className={styles.formSubtitle}>
-          Fill in the details below and start writing your next article.
-        </p>
-
         <div className={styles.formGroup}>
           <label htmlFor="title" className={styles.formLabel}>
             Title
@@ -178,16 +175,68 @@ export default function BlogForm({ onSubmit, initialData }: BlogFormProps) {
           <label htmlFor="content" className={styles.formLabel}>
             Content
           </label>
+
+          {/* Mode Toggle Buttons */}
+          <div className={styles.modeToggle}>
+            <button
+              type="button"
+              onClick={() => {
+                setIsPreviewMode(false);
+                setIsHtmlMode(false);
+              }}
+              className={`${styles.modeButton} ${!isPreviewMode && !isHtmlMode ? styles.active : ''}`}
+            >
+              Rich Text
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setIsPreviewMode(false);
+                setIsHtmlMode(true);
+              }}
+              className={`${styles.modeButton} ${isHtmlMode ? styles.active : ''}`}
+            >
+              HTML Code
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setIsPreviewMode(true);
+                setIsHtmlMode(false);
+              }}
+              className={`${styles.modeButton} ${isPreviewMode ? styles.active : ''}`}
+            >
+              Preview
+            </button>
+          </div>
+
           <div className={styles.editorWrapper}>
-            <QuillNoSSRWrapper
-              theme="snow"
-              value={content}
-              onChange={setContent}
-              modules={modules}
-              formats={formats}
-              className={styles.quillEditor}
-              placeholder="Write your blog content here..."
-            />
+            {isPreviewMode ? (
+              <div className={styles.previewContainer}>
+                <div
+                  className={styles.previewContent}
+                  dangerouslySetInnerHTML={{ __html: content }}
+                />
+              </div>
+            ) : isHtmlMode ? (
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                className={styles.htmlTextarea}
+                placeholder="<p>Write your HTML content here...</p>"
+                rows={20}
+              />
+            ) : (
+              <QuillNoSSRWrapper
+                theme="snow"
+                value={content}
+                onChange={setContent}
+                modules={modules}
+                formats={formats}
+                className={styles.quillEditor}
+                placeholder="Write your blog content here..."
+              />
+            )}
           </div>
         </div>
 
