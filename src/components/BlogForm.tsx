@@ -85,8 +85,8 @@ export default function BlogForm({ onSubmit, initialData }: BlogFormProps) {
         alert("Please select an image file");
         return;
       }
-      if (file.size > 5 * 1024 * 1024) {
-        alert("File size must be less than 5MB");
+      if (file.size > 25 * 1024 * 1024) {
+        alert("File size must be less than 25MB");
         return;
       }
 
@@ -103,10 +103,35 @@ export default function BlogForm({ onSubmit, initialData }: BlogFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate required fields
+    if (!title.trim()) {
+      alert("Please enter a title");
+      return;
+    }
+    if (!headline.trim()) {
+      alert("Please enter a headline");
+      return;
+    }
+    if (!content.trim()) {
+      alert("Please enter content");
+      return;
+    }
+    if (!image) {
+      alert("Please select an image");
+      return;
+    }
+    if (!imageType) {
+      alert("Image type is missing. Please re-select your image.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await onSubmit({ title, headline, content, image, imageType });
+      const data = { title: title.trim(), headline: headline.trim(), content: content.trim(), image, imageType };
+      console.log("Submitting data:", data); // Debug log
+      await onSubmit(data);
     } catch (error) {
       console.error("Error:", error);
       alert("Error creating blog");

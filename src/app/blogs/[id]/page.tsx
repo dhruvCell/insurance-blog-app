@@ -12,7 +12,7 @@ interface BlogPageProps {
 export const revalidate = 10; // ISR: revalidate every 10 seconds
 
 export default async function BlogPage({ params }: BlogPageProps) {
-  const { id } = params;
+  const { id } = await params;
   await dbConnect();
   const blog = await Blog.findById(id).lean();
 
@@ -69,7 +69,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
         {/* Featured Image */}
         <div className={styles.featuredImageContainer}>
           <img
-            src={blogData.image}
+            src={blogData.imageId && typeof blogData.imageId === 'string' && !blogData.imageId.startsWith('data:') ? `/api/images/${blogData.imageId}` : (blogData.image || (blogData.imageId ? `/api/images/${blogData.imageId}` : ''))}
             alt={blogData.title}
             className={styles.featuredImage}
           />

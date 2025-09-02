@@ -5,16 +5,16 @@ interface BlogCardProps {
   id: string;
   title: string;
   headline: string;
-  image: string;
+  imageId: string;
   createdAt: string;
 }
 
-export default function BlogCard({ id, title, headline, image, createdAt }: BlogCardProps) {
+export default function BlogCard({ id, title, headline, imageId, createdAt }: BlogCardProps) {
   return (
     <div className={styles.card}>
       {/* Left: Image */}
       <div className={styles.cardImageContainer}>
-        <img src={image} alt={title} className={styles.cardImage} />
+        <img src={typeof imageId === 'string' && imageId.startsWith('data:') ? imageId : `/api/images/${imageId}`} alt={title} className={styles.cardImage} />
       </div>
 
       {/* Right: Content */}

@@ -62,6 +62,7 @@
   
   .createButton:hover {
     background: #246C88;
+    color: white;
   }
   
   .mobileMenuButton {

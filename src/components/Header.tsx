@@ -6,7 +6,6 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         <Link href="/" className={styles.logo}>
-          <span className={styles.logoIcon}>🛡️</span>
           Insurance Awareness
         </Link>
         <nav className={styles.nav}>

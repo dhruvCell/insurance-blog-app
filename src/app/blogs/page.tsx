@@ -19,7 +19,7 @@ export default async function BlogsPage() {
             id={blog._id.toString()}
             title={blog.title}
             headline={blog.headline}
-            image={blog.image}
+            imageId={blog.imageId ? blog.imageId.toString() : blog.image}
             createdAt={blog.createdAt.toISOString()}
           />
         ))}

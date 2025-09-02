@@ -36,6 +36,7 @@
   
   .ctaButton:hover {
     background: #246C88;
+    color: white;
   }
   
   .secondaryButton {

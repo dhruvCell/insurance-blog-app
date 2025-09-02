@@ -4,7 +4,7 @@ export interface IBlog extends Document {
   title: string;
   headline: string;
   content: string;
-  image: string; // Will store base64 encoded image
+  imageId: mongoose.Types.ObjectId; // Reference to GridFS file
   imageType: string; // MIME type of the image
   createdAt: Date;
   updatedAt: Date;
@@ -26,8 +26,8 @@ const BlogSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    image: {
-      type: String,
+    imageId: {
+      type: Schema.Types.ObjectId,
       required: true,
     },
     imageType: {
