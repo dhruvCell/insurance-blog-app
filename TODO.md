@@ -1,12 +1,8 @@
-# TODO: Add Search Bar to Blog Page
+# TODO: Add Load More UX for Blogs
 
-## Steps to Complete:
-- [ ] Create src/components/BlogSearch.tsx: Client component for search bar and filtered blog list
-- [ ] Update src/app/blogs/page.tsx: Integrate BlogSearch component
-- [ ] Update CSS styles if needed in src/app/blogs/page.module.css
-- [ ] Test search functionality
-
-## Details:
-- BlogSearch component will fetch blogs on mount, provide search input, filter blogs by title/headline/content, and render filtered BlogCard components
-- Update blogs page to use BlogSearch instead of direct rendering
-- Ensure responsive design and proper styling
+- [x] Add displayedCount state in BlogSearch.tsx (initially 10)
+- [x] Modify the map to slice filteredBlogs.slice(0, displayedCount)
+- [x] Add "Load More" button if filteredBlogs.length > displayedCount
+- [x] Implement onClick to increase displayedCount by 10
+- [x] Add loading experience on load more click
+- [x] Test the functionality

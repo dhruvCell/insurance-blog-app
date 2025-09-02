@@ -22,6 +22,8 @@ export default function BlogSearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [displayedCount, setDisplayedCount] = useState(10);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -61,6 +63,7 @@ export default function BlogSearch() {
       );
       setFilteredBlogs(filtered);
     }
+    setDisplayedCount(10);
   }, [searchQuery, blogs]);
 
   if (loading) {
@@ -84,7 +87,7 @@ export default function BlogSearch() {
       </div>
       <div className={styles.blogsGrid}>
         {filteredBlogs.length > 0 ? (
-          filteredBlogs.map((blog) => (
+          filteredBlogs.slice(0, displayedCount).map((blog) => (
             <BlogCard
               key={blog._id}
               id={blog._id}
@@ -98,6 +101,35 @@ export default function BlogSearch() {
           <p>No blogs found matching your search.</p>
         )}
       </div>
+      {filteredBlogs.length > displayedCount && (
+        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+          {loadingMore ? (
+            <div className={styles.loadingSpinner} aria-label="Loading more blogs"></div>
+          ) : (
+            <button
+              onClick={() => {
+                setLoadingMore(true);
+                setTimeout(() => {
+                  setDisplayedCount(prev => prev + 10);
+                  setLoadingMore(false);
+                }, 500);
+              }}
+              disabled={loadingMore}
+              style={{
+                padding: '10px 20px',
+                fontSize: '16px',
+                borderRadius: '5px',
+                border: 'none',
+                backgroundColor: '#2E86AB',
+                color: 'white',
+                cursor: 'pointer',
+              }}
+            >
+              Load More
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
