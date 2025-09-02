@@ -25,6 +25,26 @@
     border-radius: 2px;
   }
   
+  .searchContainer {
+    margin-bottom: 2rem;
+  }
+
+  .searchInput {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 1px solid #E5E9EC;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+  }
+
+  .searchInput:focus {
+    outline: none;
+    border-color: #2E86AB;
+    box-shadow: 0 0 0 3px rgba(46, 134, 171, 0.1);
+  }
+
   /* Stack blogs vertically */
   .blogsGrid {
     display: flex;
