@@ -3,6 +3,13 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
+// Server startup logging
+console.log("Insurance Blog App Server Starting...");
+console.log(`Started at: ${new Date().toISOString()}`);
+console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+console.log(`Base URL: http://localhost:3000`);
+console.log("Server is running and ready to accept connections!");
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

@@ -12,3 +12,8 @@
 - [x] Update frontend components to use new image API
 - [x] Add backward compatibility for existing blogs
 - [x] Fix Next.js 15 params awaiting issues
+
+# TODO: Add Console Logs
+
+- [x] Add MongoDB connection logs with connection status, database info, and error handling
+- [x] Add server startup logs showing port, environment, and startup time

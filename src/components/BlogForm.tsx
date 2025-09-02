@@ -271,7 +271,7 @@ export default function BlogForm({ onSubmit, initialData }: BlogFormProps) {
             disabled={loading}
             className={styles.submitButton}
           >
-            {loading ? "Publishing..." : "🚀 Publish Blog"}
+            {loading ? "Publishing..." : "Publish Blog"}
           </button>
         </div>
       </form>
