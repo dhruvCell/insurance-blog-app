@@ -1,7 +1,52 @@
+'use client';
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import BlogCard from "@/components/BlogCard";
 import styles from "./page.module.css";
 
+interface Blog {
+  _id: string;
+  title: string;
+  headline: string;
+  content: string;
+  imageId: string;
+  imageType: string;
+  createdAt: string;
+  updatedAt: string;
+  slug: string;
+}
+
 export default function Home() {
+  const [featuredBlogs, setFeaturedBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchFeaturedBlogs = async () => {
+      try {
+        const response = await fetch('/api/blogs');
+        if (!response.ok) {
+          throw new Error('Failed to fetch blogs');
+        }
+        const data = await response.json();
+        const blogsWithStringId = data.slice(0, 3).map((blog: any) => ({
+          ...blog,
+          _id: blog._id.toString(),
+          imageId: blog.imageId.toString(),
+          createdAt: blog.createdAt,
+          updatedAt: blog.updatedAt,
+        }));
+        setFeaturedBlogs(blogsWithStringId);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedBlogs();
+  }, []);
   return (
     <div>
       {/* Hero Section */}
@@ -37,42 +82,39 @@ export default function Home() {
       <section className={styles.featuredSection}>
         <div className="container mx-auto px-6 py-16">
           <h2 className={styles.sectionTitle}>Featured Articles</h2>
-          <p className={styles.sectionSubtitle}>Discover our most popular insurance guides and resources</p>
-          
-          <div className={styles.articlesGrid}>
-            <div className={styles.articleCard}>
-              <div className={styles.articleImage}>
-                <div className={styles.categoryBadge}>Health Insurance</div>
-              </div>
-              <div className={styles.articleContent}>
-                <h3 className={styles.articleTitle}>Understanding Your Health Insurance Options</h3>
-                <p className={styles.articleExcerpt}>Learn how to choose the right health insurance plan for your family's needs and budget.</p>
-                <Link href="/blog/health-insurance-options" className={styles.readMoreLink}>Read More →</Link>
-              </div>
+          <p className={styles.sectionSubtitle}>Discover our latest insurance insights and guides</p>
+
+          {loading ? (
+            <div className="text-center py-8">
+              <p>Loading featured articles...</p>
             </div>
-            
-            <div className={styles.articleCard}>
-              <div className={styles.articleImage}>
-                <div className={styles.categoryBadge}>Life Insurance</div>
-              </div>
-              <div className={styles.articleContent}>
-                <h3 className={styles.articleTitle}>Life Insurance: Term vs. Whole Life</h3>
-                <p className={styles.articleExcerpt}>Compare term and whole life insurance policies to determine which is right for your financial goals.</p>
-                <Link href="/blog/term-vs-whole-life" className={styles.readMoreLink}>Read More →</Link>
-              </div>
+          ) : error ? (
+            <div className="text-center py-8">
+              <p>Error loading articles: {error}</p>
             </div>
-            
-            <div className={styles.articleCard}>
-              <div className={styles.articleImage}>
-                <div className={styles.categoryBadge}>Auto Insurance</div>
-              </div>
-              <div className={styles.articleContent}>
-                <h3 className={styles.articleTitle}>How to Lower Your Auto Insurance Premiums</h3>
-                <p className={styles.articleExcerpt}>Practical tips and strategies to reduce your car insurance costs without sacrificing coverage.</p>
-                <Link href="/blog/lower-auto-insurance" className={styles.readMoreLink}>Read More →</Link>
-              </div>
+          ) : featuredBlogs.length > 0 ? (
+            <div className={styles.articlesGrid}>
+              {featuredBlogs.map((blog) => (
+                <div key={blog._id} className={styles.articleCard}>
+                  <div className={styles.articleImage}>
+                    <img
+                      src={typeof blog.imageId === 'string' && blog.imageId.startsWith('data:') ? blog.imageId : `/api/images/${blog.imageId}`}
+                      alt={blog.title}
+                      className={styles.articleImageTag}
+                    />
+                  </div>
+                  <Link href={`/blogs/${blog._id}`} className={styles.articleTitleLink}>
+                    <h3 className={styles.articleTitle}>{blog.title}</h3>
+                  </Link>
+                  <p className={styles.articleExcerpt}>{blog.headline}</p>
+                </div>
+              ))}
             </div>
-          </div>
+          ) : (
+            <div className="text-center py-8">
+              <p>No featured articles available at the moment.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -141,7 +183,9 @@ export default function Home() {
             
             <div className={styles.importanceImage}>
               {/* Placeholder for an illustration */}
-              <div className={styles.imagePlaceholder}></div>
+              <div className={styles.imagePlaceholder}>
+                <img src="/insurance.jpg" alt="" />
+              </div>
             </div>
           </div>
         </div>
