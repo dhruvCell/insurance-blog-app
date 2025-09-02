@@ -1,84 +1,159 @@
-/* BlogForm Styles */
+/* Page Wrapper */
+.pageWrapper {
+  min-height: 100vh;
+  background: hsl(210, 36%, 96%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* Form Card */
 .form {
-  max-width: 32rem;
-  margin: 0 auto;
-  background: hsl(0, 0%, 100%);
-  padding: 2rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 48rem;
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
   border: 1px solid hsl(214, 32%, 91%);
 }
 
+/* Form Titles */
 .formTitle {
-  font-size: 1.875rem;
+  font-size: 2rem;
   font-weight: 800;
-  margin-bottom: 2rem;
-  color: hsl(222, 84%, 5%);
+  margin-bottom: 0.5rem;
+  color: hsl(222, 47%, 11%);
+  text-align: center;
 }
 
+.formSubtitle {
+  text-align: center;
+  font-size: 1rem;
+  color: hsl(215, 16%, 47%);
+  margin-bottom: 2rem;
+}
+
+/* Form Groups */
 .formGroup {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .formLabel {
   display: block;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: hsl(215, 16%, 47%);
+  color: hsl(222, 20%, 30%);
   margin-bottom: 0.5rem;
 }
 
 .formInput,
-.formTextarea,
 .formFile {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   border: 1px solid hsl(214, 32%, 91%);
   border-radius: 0.5rem;
   font-size: 1rem;
-  color: hsl(222, 84%, 5%);
   background: hsl(0, 0%, 100%);
   transition: all 0.2s ease;
 }
 
 .formInput:focus,
-.formTextarea:focus,
 .formFile:focus {
   outline: none;
   border-color: hsl(221, 83%, 53%);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
-.formTextarea {
-  resize: vertical;
-  min-height: 12rem;
+/* Image Upload */
+.imageUploadWrapper {
+  display: grid;
+  gap: 1rem;
 }
 
 .imagePreview {
-  margin-top: 1rem;
-  max-width: 100%;
-  height: 14rem;
+  width: 100%;
+  max-height: 18rem; /* slightly taller */
   object-fit: cover;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid hsl(214, 32%, 91%);
+}
+
+/* Quill Editor */
+.editorWrapper {
+  border: 1px solid hsl(214, 32%, 91%);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #fff;
+  padding: 0.25rem; /* small padding around editor */
+}
+
+.quillEditor .ql-toolbar {
+  border: none;
+  border-bottom: 1px solid hsl(214, 32%, 91%);
+  background: hsl(0, 0%, 98%);
+}
+
+.quillEditor .ql-container {
+  border: none;
+  min-height: 500px; /* more space for content */
+  max-height: 80vh; /* prevents overflowing entire page */
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.quillEditor .ql-editor {
+  padding: 1.5rem;
+  font-family: inherit;
+  color: hsl(222, 47%, 11%);
+  min-height: 500px; /* ensures editor has enough initial space */
+  overflow-y: auto; /* scroll if content exceeds max-height */
+}
+
+.quillEditor .ql-editor.ql-blank::before {
+  color: hsl(215, 16%, 47%);
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* Toolbar buttons */
+.quillEditor .ql-toolbar .ql-picker-label,
+.quillEditor .ql-toolbar button {
+  color: hsl(215, 16%, 47%);
+}
+
+.quillEditor .ql-toolbar button:hover {
+  color: hsl(221, 83%, 53%);
+}
+
+.quillEditor .ql-toolbar .ql-active {
+  color: hsl(221, 83%, 53%);
+}
+
+/* Action Bar */
+.actionBar {
+  margin-top: 2rem;
+  text-align: center;
 }
 
 .submitButton {
-  width: 100%;
   background: hsl(221, 83%, 53%);
-  color: white;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
+  color: #fff;
+  padding: 0.9rem 2rem;
+  border-radius: 0.75rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
+  font-size: 1rem;
   transition: all 0.2s ease;
 }
 
 .submitButton:hover:not(:disabled) {
-  background: hsl(221, 83%, 48%);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  background: hsl(221, 83%, 45%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .submitButton:disabled {
@@ -86,19 +161,17 @@
   cursor: not-allowed;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .form {
     padding: 1.5rem;
-    margin: 0 1rem;
   }
 
   .formTitle {
     font-size: 1.5rem;
   }
 
-  .formInput,
-  .formTextarea,
-  .formFile {
-    padding: 0.625rem 0.875rem;
+  .submitButton {
+    width: 100%;
   }
 }
