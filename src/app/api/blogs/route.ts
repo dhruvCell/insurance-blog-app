@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Blog from "@/lib/models/Blog";
 import mongoose from "mongoose";
+import { generateUniqueSlug, isValidSlug } from "@/lib/utils";
 
 export async function GET() {
   try {
@@ -18,9 +19,9 @@ export async function POST(request: NextRequest) {
   try {
     await dbConnect();
     const body = await request.json();
-    const { title, headline, content, image, imageType } = body;
+    const { title, headline, content, image, imageType, slug: providedSlug } = body;
 
-    console.log("Received data:", { title: !!title, headline: !!headline, content: !!content, image: !!image, imageType: !!imageType });
+    console.log("Received data:", { title: !!title, headline: !!headline, content: !!content, image: !!image, imageType: !!imageType, slug: !!providedSlug });
 
     if (!title || !headline || !content || !image || !imageType) {
       const missing = [];
@@ -34,6 +35,23 @@ export async function POST(request: NextRequest) {
         error: `Missing required fields: ${missing.join(', ')}`
       }, { status: 400 });
     }
+
+    // Handle slug generation/validation
+    let finalSlug: string;
+    if (providedSlug && providedSlug.trim()) {
+      // Validate provided slug
+      if (!isValidSlug(providedSlug.trim())) {
+        return NextResponse.json({
+          error: "Invalid slug format. Slug can only contain lowercase letters, numbers, and hyphens."
+        }, { status: 400 });
+      }
+      finalSlug = providedSlug.trim();
+    } else {
+      // Generate slug from title
+      finalSlug = await generateUniqueSlug(title);
+    }
+
+    console.log("Final slug to be used:", finalSlug);
 
     // Validate base64 image size (max 25MB)
     if (image && image.length > 25 * 1024 * 1024 * 1.37) {
@@ -66,16 +84,33 @@ export async function POST(request: NextRequest) {
 
     const imageId = uploadStream.id;
 
+    console.log("Creating blog with data:", {
+      title,
+      headline,
+      content: content.substring(0, 50) + "...",
+      imageId,
+      imageType,
+      slug: finalSlug,
+    });
+
     const blog = new Blog({
       title,
       headline,
       content,
       imageId,
       imageType,
+      slug: finalSlug,
     });
 
-    await blog.save();
-    return NextResponse.json(blog, { status: 201 });
+    console.log("Blog document before save:", blog);
+    console.log("Blog slug before save:", blog.slug);
+
+    const savedBlog = await blog.save();
+
+    console.log("Blog document after save:", savedBlog);
+    console.log("Blog slug after save:", savedBlog.slug);
+
+    return NextResponse.json(savedBlog, { status: 201 });
   } catch (error) {
     console.error("Error creating blog:", error);
     return NextResponse.json({ error: "Failed to create blog" }, { status: 500 });

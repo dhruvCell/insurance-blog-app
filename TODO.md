@@ -17,3 +17,9 @@
 
 - [x] Add MongoDB connection logs with connection status, database info, and error handling
 - [x] Add server startup logs showing port, environment, and startup time
+
+# TODO: Fix Slug Storage Issue
+
+- [x] Update BlogFormProps interface to include slug field
+- [x] Update BlogForm component to send slug in form submission
+- [x] Update API route to extract and store slug in database

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import styles from "./BlogForm.module.css";
 
@@ -18,6 +18,7 @@ interface BlogFormProps {
     content: string;
     image: string;
     imageType: string;
+    slug?: string;
   }) => Promise<void>;
   initialData?: {
     title: string;
@@ -25,6 +26,7 @@ interface BlogFormProps {
     content: string;
     image: string;
     imageType: string;
+    slug?: string;
   };
 }
 
@@ -40,6 +42,21 @@ export default function BlogForm({ onSubmit, initialData }: BlogFormProps) {
   );
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [isHtmlMode, setIsHtmlMode] = useState(false);
+  const [slug, setSlug] = useState(initialData?.slug || "");
+  const [isSlugEdited, setIsSlugEdited] = useState(false);
+
+  // Auto-generate slug from title
+  useEffect(() => {
+    if (title && !isSlugEdited && !initialData?.slug) {
+      const generatedSlug = title
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
+        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+      setSlug(generatedSlug);
+    }
+  }, [title, isSlugEdited, initialData?.slug]);
 
   const modules = {
     toolbar: [
@@ -129,7 +146,7 @@ export default function BlogForm({ onSubmit, initialData }: BlogFormProps) {
     setLoading(true);
 
     try {
-      const data = { title: title.trim(), headline: headline.trim(), content: content.trim(), image, imageType };
+      const data = { title: title.trim(), headline: headline.trim(), content: content.trim(), image, imageType, slug: slug.trim() };
       console.log("Submitting data:", data); // Debug log
       await onSubmit(data);
     } catch (error) {
@@ -172,7 +189,22 @@ export default function BlogForm({ onSubmit, initialData }: BlogFormProps) {
             required
           />
         </div>
-
+        <div className={styles.formGroup}>
+          <label htmlFor="slug" className={styles.formLabel}>
+            Slug (optional)
+          </label>
+          <input
+            type="text"
+            id="slug"
+            value={slug}
+          onChange={(e) => {
+            setSlug(e.target.value);
+            setIsSlugEdited(true);
+          }}
+          className={styles.formInput}
+          placeholder="Custom URL slug (e.g., my-blog-post)"
+        />
+        </div>
         <div className={styles.formGroup}>
           <label htmlFor="image" className={styles.formLabel}>
             Blog Image

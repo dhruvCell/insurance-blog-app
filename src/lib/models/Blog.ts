@@ -8,6 +8,7 @@ export interface IBlog extends Document {
   imageType: string; // MIME type of the image
   createdAt: Date;
   updatedAt: Date;
+  slug: string;
 }
 
 const BlogSchema: Schema = new Schema(
@@ -34,10 +35,21 @@ const BlogSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.models.Blog || mongoose.model<IBlog>("Blog", BlogSchema);
+// Clear any existing model to ensure schema updates are applied
+if (mongoose.models.Blog) {
+  delete mongoose.models.Blog;
+}
+
+export default mongoose.model<IBlog>("Blog", BlogSchema);

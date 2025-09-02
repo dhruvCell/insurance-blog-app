@@ -47,7 +47,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
             Blogs
           </Link>
           <span className={styles.breadcrumbSeparator}>/</span>
-          <span className={styles.breadcrumbCurrent}>{blogData.title}</span>
+          <span className={styles.breadcrumbCurrent}>{blogData.slug}</span>
         </nav>
 
         {/* Article Header */}
