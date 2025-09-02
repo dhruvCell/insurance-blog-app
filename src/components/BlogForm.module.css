@@ -1,0 +1,104 @@
+/* BlogForm Styles */
+.form {
+  max-width: 32rem;
+  margin: 0 auto;
+  background: hsl(0, 0%, 100%);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid hsl(214, 32%, 91%);
+}
+
+.formTitle {
+  font-size: 1.875rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: hsl(222, 84%, 5%);
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(215, 16%, 47%);
+  margin-bottom: 0.5rem;
+}
+
+.formInput,
+.formTextarea,
+.formFile {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid hsl(214, 32%, 91%);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: hsl(222, 84%, 5%);
+  background: hsl(0, 0%, 100%);
+  transition: all 0.2s ease;
+}
+
+.formInput:focus,
+.formTextarea:focus,
+.formFile:focus {
+  outline: none;
+  border-color: hsl(221, 83%, 53%);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 12rem;
+}
+
+.imagePreview {
+  margin-top: 1rem;
+  max-width: 100%;
+  height: 14rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.submitButton {
+  width: 100%;
+  background: hsl(221, 83%, 53%);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: hsl(221, 83%, 48%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 1.5rem;
+    margin: 0 1rem;
+  }
+
+  .formTitle {
+    font-size: 1.5rem;
+  }
+
+  .formInput,
+  .formTextarea,
+  .formFile {
+    padding: 0.625rem 0.875rem;
+  }
+}

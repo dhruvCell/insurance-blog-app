@@ -1,0 +1,35 @@
+/* Create Blog Page Styles */
+.page {
+  min-height: 100vh;
+  background: hsl(0, 0%, 100%);
+  padding: 2rem 1rem;
+}
+
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: hsl(222, 84%, 5%);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.formWrapper {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 1rem 0.5rem;
+  }
+
+  .pageTitle {
+    font-size: 1.875rem;
+    margin-bottom: 1.5rem;
+  }
+}

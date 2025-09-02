@@ -1,50 +1,66 @@
 import Link from "next/link";
+import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <main className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Professional Blog Template
+    <div className={styles.hero}>
+      <main className="container mx-auto px-6 py-20">
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>
+            Insurance Awareness Blog
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            A modern, responsive blog application built with Next.js, TypeScript, and MongoDB. Perfect for creating content-rich websites.
+          <p className={styles.heroSubtitle}>
+            Empowering you with knowledge about insurance policies, coverage options, and financial protection strategies for a secure future.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20">
           <Link
             href="/blogs"
-            className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            className={styles.ctaButton}
           >
-            View All Blogs
+            Explore Blogs
           </Link>
           <Link
             href="/create-blog"
-            className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+            className={styles.secondaryButton}
           >
-            Create New Blog
+            Share Your Knowledge
           </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-3">Modern Tech Stack</h3>
-            <p className="text-gray-600">
-              Built with Next.js 15, TypeScript, Tailwind CSS, and MongoDB for optimal performance and developer experience.
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 className={styles.featureTitle}>Expert Insights</h3>
+            <p className={styles.featureText}>
+              Access comprehensive articles written by insurance professionals covering the latest trends, policies, and best practices.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-3">Responsive Design</h3>
-            <p className="text-gray-600">
-              Fully responsive design that works perfectly on desktop, tablet, and mobile devices.
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 className={styles.featureTitle}>Mobile Friendly</h3>
+            <p className={styles.featureText}>
+              Enjoy a seamless reading experience across all devices with our fully responsive design optimized for mobile and desktop.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-3">Easy Customization</h3>
-            <p className="text-gray-600">
-              Clean, modular code structure makes it easy to customize and extend for your specific needs.
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className={styles.featureTitle}>Community Driven</h3>
+            <p className={styles.featureText}>
+              Join our growing community of insurance enthusiasts. Share your experiences and learn from others in our interactive platform.
             </p>
           </div>
         </div>

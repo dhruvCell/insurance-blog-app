@@ -1,0 +1,124 @@
+.hero {
+    background: linear-gradient(135deg, #FAFAFB 0%, #F2F6FA 100%);
+    min-height: 100vh;
+  }
+  
+  .heroContent {
+    animation: fadeIn 0.8s ease-out;
+    text-align: center;
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  
+  .heroTitle {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #2C3E50;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  
+  .heroSubtitle {
+    font-size: 1.25rem;
+    color: #6C7A89;
+    line-height: 1.6;
+    margin: 0 auto 2.5rem;
+  }
+  
+  .ctaButton {
+    background: #2E86AB;
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background 0.2s ease;
+  }
+  
+  .ctaButton:hover {
+    background: #246C88;
+  }
+  
+  .secondaryButton {
+    background: transparent;
+    color: #2E86AB;
+    border: 2px solid #2E86AB;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  
+  .secondaryButton:hover {
+    background: #2E86AB;
+    color: #fff;
+  }
+  
+  .featureCard {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    border: 1px solid #E5E9EC;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .featureCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(44, 62, 80, 0.1);
+  }
+  
+  .featureIcon {
+    width: 3rem;
+    height: 3rem;
+    background: #2E86AB;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  
+  .featureTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2C3E50;
+    margin-bottom: 0.75rem;
+  }
+  
+  .featureText {
+    color: #6C7A89;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .heroTitle {
+      font-size: 2.25rem;
+    }
+  
+    .heroSubtitle {
+      font-size: 1rem;
+    }
+  
+    .ctaButton,
+    .secondaryButton {
+      padding: 0.6rem 1.5rem;
+      font-size: 0.9rem;
+    }
+  
+    .featureCard {
+      padding: 1.5rem;
+    }
+  }
+  

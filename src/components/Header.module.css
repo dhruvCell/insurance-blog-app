@@ -1,0 +1,117 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #ffffff;
+    border-bottom: 1px solid #E5E9EC;
+  }
+  
+  .headerContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2C3E50;
+    text-decoration: none;
+  }
+  
+  .logoIcon {
+    font-size: 1.6rem;
+  }
+  
+  .nav {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  .navLink {
+    color: #4F6F8F;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.3rem 0;
+    transition: color 0.2s ease;
+  }
+  
+  .navLink:hover {
+    color: #2E86AB;
+    text-decoration: underline;
+  }
+  
+  .createButton {
+    background: #2E86AB;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .createButton:hover {
+    background: #246C88;
+  }
+  
+  .mobileMenuButton {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .mobileMenuButton span {
+    width: 2rem;
+    height: 0.2rem;
+    background: #2C3E50;
+    border-radius: 2px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .nav {
+      display: none;
+    }
+  
+    .mobileMenuButton {
+      display: flex;
+    }
+  
+    .mobileMenuOpen {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: #ffffff;
+      border-top: 1px solid #E5E9EC;
+      padding: 1rem;
+      gap: 1rem;
+    }
+  
+    .mobileMenu .navLink {
+      padding: 0.6rem 0;
+    }
+  
+    .mobileMenu .createButton {
+      text-align: center;
+    }
+  }
+  

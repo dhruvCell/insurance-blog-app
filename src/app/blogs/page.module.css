@@ -1,0 +1,72 @@
+.pageContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+    background: linear-gradient(135deg, #FAFAFB 0%, #F2F6FA 100%);
+    min-height: 100vh;
+  }
+  
+  .pageTitle {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2C3E50;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .pageTitle::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: #2E86AB;
+    margin: 1rem auto 0;
+    border-radius: 2px;
+  }
+  
+  /* Stack blogs vertically */
+  .blogsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* space between blogs */
+  }
+  
+  /* Blog Card Styling in Grid */
+  .blogsGrid > * {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #E5E9EC;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 10px rgba(44, 62, 80, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .blogsGrid > *:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(44, 62, 80, 0.12);
+  }
+  
+  .blog-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+  }
+  
+  @media (max-width: 768px) {
+    .pageContainer {
+      padding: 2rem 1rem;
+    }
+  
+    .pageTitle {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  
+    .blogsGrid {
+      gap: 1rem;
+    }
+  }
+  

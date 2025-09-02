@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import BlogForm from "@/components/BlogForm";
+import styles from "./page.module.css";
 
 export default function CreateBlogPage() {
   const router = useRouter();
@@ -30,9 +31,13 @@ export default function CreateBlogPage() {
   };
 
   return (
-    <main className="container mx-auto px-4 py-8 max-w-2xl">
-      <h1 className="text-3xl font-bold mb-8">Create New Blog</h1>
-      <BlogForm onSubmit={handleSubmit} />
-    </main>
+    <div className={styles.page}>
+      <div className={styles.pageContainer}>
+        <h1 className={styles.pageTitle}>Create New Blog</h1>
+        <div className={styles.formWrapper}>
+          <BlogForm onSubmit={handleSubmit} />
+        </div>
+      </div>
+    </div>
   );
 }

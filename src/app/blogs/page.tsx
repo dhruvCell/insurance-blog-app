@@ -1,6 +1,7 @@
 import BlogCard from "@/components/BlogCard";
 import dbConnect from "@/lib/mongodb";
 import Blog from "@/lib/models/Blog";
+import styles from "./page.module.css";
 
 export const revalidate = 10; // ISR: revalidate every 10 seconds
 
@@ -9,9 +10,9 @@ export default async function BlogsPage() {
   const blogs = await Blog.find({}).sort({ createdAt: -1 }).lean();
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Blog Posts</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <main className={styles.pageContainer}>
+      <h1 className={styles.pageTitle}>Latest Blog Posts</h1>
+      <div className={styles.blogsGrid}>
         {blogs.map((blog: any) => (
           <BlogCard
             key={blog._id.toString()}

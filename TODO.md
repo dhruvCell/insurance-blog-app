@@ -1,18 +1,11 @@
-# Blog App Template - Conversion Complete
+# UI/UX Improvement Plan for Insurance Blog App
 
-- [x] Update layout.tsx for generic metadata
-- [x] Create src/lib/mongodb.ts for database connection
-- [x] Create src/lib/models/Blog.ts for blog schema
-- [x] Create src/components folder and components (Header, BlogCard, BlogForm)
-- [x] Create API routes for blogs (GET/POST)
-- [x] Create blogs listing page
-- [x] Create individual blog page
-- [x] Create create-blog page
-- [x] Update homepage to show generic content
-- [x] Create comprehensive README.md
-- [x] Create .env.local.example
-- [x] Add image upload functionality (base64)
-- [x] Update components for base64 image display
-- [ ] Set up MongoDB connection (local or Atlas)
-- [ ] Add sample blogs (optional)
-- [ ] Test the app
+## Tasks
+- [x] Update global styles in globals.css for professional typography and color palette
+- [x] Enhance Header component with sticky effect and improved styling
+- [x] Improve homepage (page.tsx) with better colors, spacing, and animations
+- [x] Enhance BlogCard component with better shadows, hover effects, and layout
+- [x] Improve blog detail page with better typography and spacing
+- [x] Enhance BlogForm component with better input styles and user feedback
+- [x] Update blogs listing page layout if needed
+- [x] Test responsiveness and visual appeal across devices
