@@ -24,8 +24,16 @@ export default function AdminPage() {
     timeAgo: string;
   }
 
+  interface TopViewedBlog {
+    id: string;
+    title: string;
+    viewCount: number;
+  }
+
   const [recentBlogs, setRecentBlogs] = useState<RecentBlog[]>([]);
   const [recentLoading, setRecentLoading] = useState(false);
+  const [topViewedBlogs, setTopViewedBlogs] = useState<TopViewedBlog[]>([]);
+  const [topViewedLoading, setTopViewedLoading] = useState(false);
 
   useEffect(() => {
     // Check if already authenticated from localStorage
@@ -34,6 +42,7 @@ export default function AdminPage() {
       setIsAuthenticated(true);
       fetchBlogStats();
       fetchRecentBlogs();
+      fetchTopViewedBlogs();
     }
   }, []);
 
@@ -67,6 +76,21 @@ export default function AdminPage() {
     }
   };
 
+  const fetchTopViewedBlogs = async () => {
+    try {
+      setTopViewedLoading(true);
+      const response = await fetch('/api/blogs/top-viewed');
+      if (response.ok) {
+        const data = await response.json();
+        setTopViewedBlogs(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch top viewed blogs:', error);
+    } finally {
+      setTopViewedLoading(false);
+    }
+  };
+
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
@@ -75,6 +99,7 @@ export default function AdminPage() {
       setError("");
       fetchBlogStats();
       fetchRecentBlogs();
+      fetchTopViewedBlogs();
     } else {
       setError("Incorrect password. Please try again.");
       setPassword("");
@@ -173,6 +198,33 @@ export default function AdminPage() {
                   </div>
                 ) : (
                   <p>No recent blog posts available.</p>
+                )}
+              </div>
+            </div>
+
+            {/* Top Viewed Blogs */}
+            <div className={styles.recentActivity}>
+              <h2 className={styles.sectionTitle}>Top Viewed Blogs</h2>
+              <div className={styles.activityList}>
+                {topViewedLoading ? (
+                  <div className="text-center py-4">
+                    <LoadingSpinner size="medium" />
+                    <p className="mt-2 text-gray-600">Loading top viewed blogs...</p>
+                  </div>
+                ) : topViewedBlogs.length > 0 ? (
+                  topViewedBlogs.map((blog) => (
+                    <div key={blog.id} className={styles.activityItem}>
+                      <div className={styles.activityIcon}>👁️</div>
+                      <div className={styles.activityContent}>
+                        <Link href={`/blogs/${blog.id}`} className={styles.activityText}>
+                          {blog.title}
+                        </Link>
+                        <p className={styles.activityTime}>{blog.viewCount} views</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>No viewed blogs available.</p>
                 )}
               </div>
             </div>
