@@ -6,8 +6,8 @@ export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
 
-    // Fetch the top 3 viewed blog posts
-    const topViewedBlogs = await Blog.find({})
+    // Fetch the top 3 viewed blog posts (excluding 0 views)
+    const topViewedBlogs = await Blog.find({ viewCount: { $gt: 0 } })
       .sort({ viewCount: -1 })
       .limit(3)
       .select('title viewCount')

@@ -9,6 +9,7 @@
 - [x] Add "Top Viewed Blogs" section to admin page UI
 - [x] Display up to 3 blogs with title and view count
 - [x] Handle loading and empty states
+- [x] Update API to exclude blogs with 0 views from top viewed list
 
 ## Files Modified
 - `src/app/api/blogs/top-viewed/route.ts` (created)
