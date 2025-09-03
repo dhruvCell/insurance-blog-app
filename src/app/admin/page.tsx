@@ -14,14 +14,32 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [blogStats, setBlogStats] = useState({ totalBlogs: 0 });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Check if already authenticated from localStorage
     const authStatus = localStorage.getItem("adminAuthenticated");
     if (authStatus === "true") {
       setIsAuthenticated(true);
+      fetchBlogStats();
     }
   }, []);
+
+  const fetchBlogStats = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/blogs/stats');
+      if (response.ok) {
+        const data = await response.json();
+        setBlogStats(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch blog stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,6 +47,7 @@ export default function AdminPage() {
       setIsAuthenticated(true);
       localStorage.setItem("adminAuthenticated", "true");
       setError("");
+      fetchBlogStats();
     } else {
       setError("Incorrect password. Please try again.");
       setPassword("");
@@ -67,16 +86,59 @@ export default function AdminPage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.adminPanel}>
-        <h1 className={styles.panelTitle}>Admin Panel</h1>
-        <p className={styles.panelSubtitle}>Welcome to the admin dashboard. Here you can manage blogs.</p>
-        <div className={styles.buttonGroup}>
-          <Link href="/create-blog" className={styles.createButton}>
-            Create Blog
-          </Link>
-          <button onClick={handleLogout} className={styles.logoutButton}>
-            Logout
-          </button>
+      <div className={styles.dashboard}>
+        {/* Header Section */}
+        <div className={styles.dashboardHeader}>
+          <div className={styles.headerContent}>
+            <div>
+              <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
+              <p className={styles.headerSubtitle}>Manage your blog content and monitor performance</p>
+            </div>
+            <button onClick={handleLogout} className={styles.logoutButton}>
+              Logout
+            </button>
+          </div>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className={styles.contentGrid}>
+          <div className={styles.mainContent}>
+            {/* Quick Actions */}
+            <div className={styles.quickActions}>
+              <h2 className={styles.sectionTitle}>Quick Actions</h2>
+              <div className={styles.actionGrid}>
+                <Link href="/create-blog" className={styles.actionCard}>
+                  <div className={styles.actionIcon}>✏️</div>
+                  <div className={styles.actionContent}>
+                    <h3 className={styles.actionTitle}>Create New Blog</h3>
+                    <p className={styles.actionDescription}>Write and publish a new blog post to engage your audience</p>
+                  </div>
+                </Link>
+
+                <Link href="/blogs" className={styles.actionCard}>
+                  <div className={styles.actionIcon}>📝</div>
+                  <div className={styles.actionContent}>
+                    <h3 className={styles.actionTitle}>Manage Blogs</h3>
+                    <p className={styles.actionDescription}>Edit, delete, or review existing blog posts</p>
+                  </div>
+                </Link>
+              </div>
+            </div>
+
+            {/* Recent Activity */}
+            <div className={styles.recentActivity}>
+              <h2 className={styles.sectionTitle}>Recent Activity</h2>
+              <div className={styles.activityList}>
+                <div className={styles.activityItem}>
+                  <div className={styles.activityIcon}>📝</div>
+                  <div className={styles.activityContent}>
+                    <p className={styles.activityText}>New blog post "Insurance Trends 2024" published</p>
+                    <p className={styles.activityTime}>2 hours ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

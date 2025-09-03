@@ -24,7 +24,7 @@ export default function CreateBlogPage() {
     });
 
     if (response.ok) {
-      router.push("/blogs");
+      router.push("/admin");
     } else {
       const errorData = await response.json();
       alert(`Failed to create blog: ${errorData.error || 'Unknown error'}`);
