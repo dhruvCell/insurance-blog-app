@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import BlogForm from "@/components/BlogForm";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import styles from "../../create-blog/page.module.css";
 
 interface BlogData {
@@ -69,7 +70,10 @@ export default function EditBlogPage() {
     return (
       <div className={styles.page}>
         <div className={styles.pageContainer}>
-          <p>Loading...</p>
+          <div className="text-center py-8">
+            <LoadingSpinner size="large" />
+            <p className="mt-4 text-gray-600">Loading blog data...</p>
+          </div>
         </div>
       </div>
     );

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import AdminActions from "@/components/AdminActions";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import styles from "./page.module.css";
 import { useParams } from "next/navigation";
 
@@ -38,7 +39,16 @@ export default function BlogPage({ params }: BlogPageProps) {
   }, [id]);
 
   if (!blog) {
-    return <div>Loading...</div>;
+    return (
+      <main className={styles.page}>
+        <div className={styles.pageContainer}>
+          <div className="text-center py-8">
+            <LoadingSpinner size="large" />
+            <p className="mt-4 text-gray-600">Loading blog...</p>
+          </div>
+        </div>
+      </main>
+    );
   }
 
   return (

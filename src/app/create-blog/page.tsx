@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import BlogForm from "@/components/BlogForm";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import styles from "./page.module.css";
 
 export default function CreateBlogPage() {
@@ -46,7 +47,10 @@ export default function CreateBlogPage() {
     return (
       <div className={styles.page}>
         <div className={styles.pageContainer}>
-          <p>Redirecting...</p>
+          <div className="text-center py-8">
+            <LoadingSpinner size="large" />
+            <p className="mt-4 text-gray-600">Checking authentication...</p>
+          </div>
         </div>
       </div>
     );

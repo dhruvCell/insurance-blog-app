@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import BlogCard from "@/components/BlogCard";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import BlogCardSkeleton from "@/components/BlogCardSkeleton";
 import styles from "./page.module.css";
 
 interface Blog {
@@ -89,7 +91,8 @@ export default function Home() {
 
           {loading ? (
             <div className="text-center py-8">
-              <p>Loading featured articles...</p>
+              <LoadingSpinner size="large" />
+              <p className="mt-4 text-gray-600">Loading featured articles...</p>
             </div>
           ) : error ? (
             <div className="text-center py-8">

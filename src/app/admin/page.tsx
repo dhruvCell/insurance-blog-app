@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import styles from "./page.module.css";
 
 const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD as string;
@@ -156,7 +157,10 @@ export default function AdminPage() {
               <h2 className={styles.sectionTitle}>Recent Activity</h2>
               <div className={styles.activityList}>
                 {recentLoading ? (
-                  <p>Loading recent blog post...</p>
+                  <div className="text-center py-4">
+                    <LoadingSpinner size="medium" />
+                    <p className="mt-2 text-gray-600">Loading recent activity...</p>
+                  </div>
                 ) : recentBlogs.length > 0 ? (
                   <div className={styles.activityItem}>
                     <div className={styles.activityIcon}>📝</div>

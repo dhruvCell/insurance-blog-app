@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import BlogCard from './BlogCard';
+import LoadingSpinner from './LoadingSpinner';
+import BlogCardSkeleton from './BlogCardSkeleton';
 import styles from '../app/blogs/page.module.css';
 
 interface Blog {
@@ -71,7 +73,15 @@ export default function BlogSearch() {
   }, [searchQuery, blogs]);
 
   if (loading) {
-    return <div>Loading blogs...</div>;
+    return (
+      <div>
+        <div className="text-center py-8">
+          <LoadingSpinner size="large" />
+          <p className="mt-4 text-gray-600">Loading blogs...</p>
+        </div>
+        <BlogCardSkeleton count={6} />
+      </div>
+    );
   }
 
   if (error) {
@@ -109,7 +119,10 @@ export default function BlogSearch() {
       {filteredBlogs.length > displayedCount && (
         <div style={{ textAlign: 'center', marginTop: '1rem' }}>
           {loadingMore ? (
-            <div className={styles.loadingSpinner} aria-label="Loading more blogs"></div>
+            <div className="flex flex-col items-center">
+              <LoadingSpinner size="medium" />
+              <p className="mt-2 text-gray-600">Loading more blogs...</p>
+            </div>
           ) : (
             <button
               onClick={() => {
