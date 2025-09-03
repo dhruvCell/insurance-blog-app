@@ -62,12 +62,12 @@ export default function BlogCard({ id, title, headline, imageId, createdAt, view
             })}
           </span>
 
-          {isAdmin && (
             <div className={styles.adminActions}>
               <div className={styles.viewCount}>
                 <span className={styles.viewIcon}>👁️</span>
                 <span className={styles.viewText}>{viewCount} views</span>
               </div>
+          {isAdmin && (
               <div className={styles.actionButtons}>
                 <Link href={`/edit-blog/${id}`} className={styles.editButton}>
                   Edit
@@ -76,8 +76,8 @@ export default function BlogCard({ id, title, headline, imageId, createdAt, view
                   Delete
                 </button>
               </div>
-            </div>
           )}
+            </div>
         </div>
       </div>
     </div>
