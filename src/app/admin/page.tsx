@@ -161,7 +161,9 @@ export default function AdminPage() {
                   <div className={styles.activityItem}>
                     <div className={styles.activityIcon}>📝</div>
                     <div className={styles.activityContent}>
-                      <p className={styles.activityText}>{recentBlogs[0].title}</p>
+                      <Link href={`/blogs/${recentBlogs[0].id}`} className={styles.activityText}>
+                        {recentBlogs[0].title}
+                      </Link>
                       <p className={styles.activityTime}>{recentBlogs[0].timeAgo}</p>
                     </div>
                   </div>
