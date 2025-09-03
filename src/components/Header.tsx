@@ -21,9 +21,6 @@ export default function Header() {
           <Link href="/about" className={styles.navLink}>
             About
           </Link>
-          <Link href="/create-blog" className={styles.createButton}>
-            Create Blog
-          </Link>
         </nav>
         
         {/* Mobile menu button (simplified version) */}

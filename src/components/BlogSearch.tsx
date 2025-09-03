@@ -59,7 +59,8 @@ export default function BlogSearch() {
       const filtered = blogs.filter(blog =>
         blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         blog.headline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        blog.content.toLowerCase().includes(searchQuery.toLowerCase())
+        blog.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        blog.createdAt.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredBlogs(filtered);
     }

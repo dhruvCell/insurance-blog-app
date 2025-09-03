@@ -1,8 +1,7 @@
-# TODO: Add Load More UX for Blogs
+# TODO: Add /admin route with Create Blog button
 
-- [x] Add displayedCount state in BlogSearch.tsx (initially 10)
-- [x] Modify the map to slice filteredBlogs.slice(0, displayedCount)
-- [x] Add "Load More" button if filteredBlogs.length > displayedCount
-- [x] Implement onClick to increase displayedCount by 10
-- [x] Add loading experience on load more click
-- [x] Test the functionality
+- [x] Create new page at src/app/admin/page.tsx
+- [x] Render a heading "Admin Panel"
+- [x] Render a button labeled "Create Blog" linking to /create-blog
+- [x] Use Next.js Link component for navigation
+- [x] Apply basic styling consistent with the app
