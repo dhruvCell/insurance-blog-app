@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import BlogForm from "@/components/BlogForm";
 import styles from "./page.module.css";
 
 export default function CreateBlogPage() {
   const router = useRouter();
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const authStatus = localStorage.getItem("adminAuthenticated");
+    if (authStatus !== "true") {
+      router.replace("/"); // faster than push for redirects
+    }
+    setAuthChecked(true);
+  }, [router]);
 
   const handleSubmit = async (data: {
     title: string;
@@ -15,21 +24,33 @@ export default function CreateBlogPage() {
     image: string;
     imageType: string;
   }) => {
-    const response = await fetch("/api/blogs", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const response = await fetch("/api/blogs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    if (response.ok) {
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Unknown error");
+      }
+
       router.push("/admin");
-    } else {
-      const errorData = await response.json();
-      alert(`Failed to create blog: ${errorData.error || 'Unknown error'}`);
+    } catch (err: any) {
+      alert(`Failed to create blog: ${err.message}`);
     }
   };
+
+  if (!authChecked) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.pageContainer}>
+          <p>Redirecting...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>

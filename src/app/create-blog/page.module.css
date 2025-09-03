@@ -22,6 +22,89 @@
   margin: 0 auto;
 }
 
+/* Login Form Styles */
+.loginContainer {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: hsl(0, 0%, 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.loginTitle {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: hsl(222, 84%, 5%);
+  margin-bottom: 0.5rem;
+}
+
+.loginSubtitle {
+  color: hsl(215, 16%, 47%);
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.passwordInput {
+  padding: 0.75rem 1rem;
+  border: 1px solid hsl(214, 32%, 91%);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.passwordInput:focus {
+  outline: none;
+  border-color: hsl(221, 83%, 53%);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.submitButton {
+  padding: 0.75rem 1.5rem;
+  background: hsl(221, 83%, 53%);
+  color: hsl(0, 0%, 100%);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton:hover {
+  background: hsl(217, 91%, 60%);
+}
+
+.errorMessage {
+  color: hsl(0, 84%, 60%);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.backLink {
+  margin-top: 1.5rem;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: hsl(221, 83%, 53%);
+  cursor: pointer;
+  font-size: 0.875rem;
+  text-decoration: underline;
+}
+
+.backButton:hover {
+  color: hsl(217, 91%, 60%);
+}
+
 @media (max-width: 768px) {
   .page {
     padding: 1rem 0.5rem;
@@ -30,5 +113,14 @@
   .pageTitle {
     font-size: 1.875rem;
     margin-bottom: 1.5rem;
+  }
+
+  .loginContainer {
+    margin: 2rem auto;
+    padding: 1.5rem;
+  }
+
+  .loginTitle {
+    font-size: 1.5rem;
   }
 }

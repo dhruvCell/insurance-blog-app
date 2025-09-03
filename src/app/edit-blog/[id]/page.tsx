@@ -22,47 +22,46 @@ export default function EditBlogPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const authStatus = localStorage.getItem("adminAuthenticated");
+    if (authStatus !== "true") {
+      router.replace("/");
+      return;
+    }
+  }, [router]);
+
+  useEffect(() => {
     const fetchBlog = async () => {
       try {
         const response = await fetch(`/api/blogs/${params.id}`);
-        if (response.ok) {
-          const data = await response.json();
-          setBlogData(data);
-        } else {
-          setError("Failed to load blog data");
-        }
-      } catch (err) {
-        setError("Failed to load blog data");
+        if (!response.ok) throw new Error("Failed to load blog data");
+        const data = await response.json();
+        setBlogData(data);
+      } catch (err: any) {
+        setError(err.message || "Failed to load blog data");
       } finally {
         setLoading(false);
       }
     };
 
-    if (params.id) {
-      fetchBlog();
-    }
+    if (params.id) fetchBlog();
   }, [params.id]);
 
-  const handleSubmit = async (data: {
-    title: string;
-    headline: string;
-    content: string;
-    image: string;
-    imageType: string;
-  }) => {
-    const response = await fetch(`/api/blogs/${params.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+  const handleSubmit = async (data: BlogData) => {
+    try {
+      const response = await fetch(`/api/blogs/${params.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    if (response.ok) {
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Unknown error");
+      }
+
       router.push("/admin");
-    } else {
-      const errorData = await response.json();
-      alert(`Failed to update blog: ${errorData.error || 'Unknown error'}`);
+    } catch (err: any) {
+      alert(`Failed to update blog: ${err.message}`);
     }
   };
 
@@ -70,7 +69,7 @@ export default function EditBlogPage() {
     return (
       <div className={styles.page}>
         <div className={styles.pageContainer}>
-          <p>Loading blog data...</p>
+          <p>Loading...</p>
         </div>
       </div>
     );
