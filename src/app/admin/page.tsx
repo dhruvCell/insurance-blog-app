@@ -111,7 +111,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page1}>
       <div className={styles.dashboard}>
         {/* Header Section */}
         <div className={styles.dashboardHeader}>

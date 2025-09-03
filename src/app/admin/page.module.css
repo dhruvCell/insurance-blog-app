@@ -3,10 +3,18 @@
   min-height: 100vh;
   background: #f8fafc;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.page1{
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 .dashboard {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -14,7 +22,7 @@
 /* Login Styles */
 .loginContainer {
   max-width: 400px;
-  margin: 8rem auto;
+  max-height: 600px;
   background: white;
   padding: 3rem;
   border-radius: 16px;
@@ -320,7 +328,7 @@
 
 @media (max-width: 480px) {
   .loginContainer {
-    margin: 2rem auto;
+    margin: 1rem auto;
     padding: 2rem 1.5rem;
   }
 
