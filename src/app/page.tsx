@@ -73,12 +73,6 @@ export default function Home() {
             >
               Explore Blogs
             </Link>
-            <Link
-              href="/create-blog"
-              className={styles.secondaryButton}
-            >
-              Share Your Knowledge
-            </Link>
           </div>
         </main>
       </div>
