@@ -34,13 +34,15 @@ export default function BlogSearch() {
           throw new Error('Failed to fetch blogs');
         }
         const data = await response.json();
-        const blogsWithStringId = data.map((blog: any) => ({
-          ...blog,
-          _id: blog._id.toString(),
-          imageId: blog.imageId.toString(),
-          createdAt: blog.createdAt,
-          updatedAt: blog.updatedAt,
-        }));
+        const blogsWithStringId = data
+          .filter((blog: any) => blog._id && blog.imageId)
+          .map((blog: any) => ({
+            ...blog,
+            _id: blog._id.toString(),
+            imageId: blog.imageId.toString(),
+            createdAt: blog.createdAt,
+            updatedAt: blog.updatedAt,
+          }));
         setBlogs(blogsWithStringId);
         setFilteredBlogs(blogsWithStringId);
       } catch (err) {

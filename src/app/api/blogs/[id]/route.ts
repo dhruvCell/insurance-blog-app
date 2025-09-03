@@ -4,12 +4,12 @@ import Blog from '@/lib/models/Blog';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectToDatabase();
 
-    const { id } = params;
+    const { id } = await params;
 
     // Check if request is from admin via "x-admin" header
     const isAdminHeader = request.headers.get("x-admin");
@@ -48,12 +48,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectToDatabase();
 
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     const updatedBlog = await Blog.findByIdAndUpdate(
@@ -84,12 +84,12 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectToDatabase();
 
-    const { id } = params;
+    const { id } = await params;
 
     // Delete the blog
     const deletedBlog = await Blog.findByIdAndDelete(id);

@@ -30,13 +30,16 @@ export default function Home() {
           throw new Error('Failed to fetch blogs');
         }
         const data = await response.json();
-        const blogsWithStringId = data.slice(0, 3).map((blog: any) => ({
-          ...blog,
-          _id: blog._id.toString(),
-          imageId: blog.imageId.toString(),
-          createdAt: blog.createdAt,
-          updatedAt: blog.updatedAt,
-        }));
+        const blogsWithStringId = data
+          .filter((blog: any) => blog._id && blog.imageId)
+          .slice(0, 3)
+          .map((blog: any) => ({
+            ...blog,
+            _id: blog._id.toString(),
+            imageId: blog.imageId.toString(),
+            createdAt: blog.createdAt,
+            updatedAt: blog.updatedAt,
+          }));
         setFeaturedBlogs(blogsWithStringId);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
