@@ -110,6 +110,10 @@ export default function BlogSearch() {
               imageId={blog.imageId}
               createdAt={blog.createdAt}
               viewCount={blog.viewCount || 0}
+              onDelete={(id) => {
+                setBlogs((prevBlogs) => prevBlogs.filter((b) => b._id !== id));
+                setFilteredBlogs((prevBlogs) => prevBlogs.filter((b) => b._id !== id));
+              }}
             />
           ))
         ) : (

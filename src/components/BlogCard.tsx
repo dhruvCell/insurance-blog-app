@@ -11,10 +11,12 @@ interface BlogCardProps {
   imageId: string;
   createdAt: string;
   viewCount?: number;
+  onDelete?: (id: string) => void;
 }
 
-export default function BlogCard({ id, title, headline, imageId, createdAt, viewCount = 0 }: BlogCardProps) {
+export default function BlogCard({ id, title, headline, imageId, createdAt, viewCount = 0, onDelete }: BlogCardProps) {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     // Check if user is admin
@@ -25,18 +27,23 @@ export default function BlogCard({ id, title, headline, imageId, createdAt, view
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this blog post?")) {
       try {
+        setIsDeleting(true);
         const response = await fetch(`/api/blogs/${id}`, {
           method: "DELETE",
         });
 
         if (response.ok) {
           alert("Blog deleted successfully!");
-          window.location.reload(); // Refresh the page to update the list
+          if (onDelete) {
+            onDelete(id);
+          }
         } else {
           alert("Failed to delete blog");
         }
       } catch (error) {
         alert("Error deleting blog");
+      } finally {
+        setIsDeleting(false);
       }
     }
   };
@@ -72,8 +79,8 @@ export default function BlogCard({ id, title, headline, imageId, createdAt, view
                 <Link href={`/edit-blog/${id}`} className={styles.editButton}>
                   Edit
                 </Link>
-                <button onClick={handleDelete} className={styles.deleteButton}>
-                  Delete
+                <button onClick={handleDelete} className={styles.deleteButton} disabled={isDeleting}>
+                  {isDeleting ? "Deleting..." : "Delete"}
                 </button>
               </div>
           )}

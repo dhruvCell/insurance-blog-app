@@ -34,6 +34,7 @@ export default function AdminPage() {
   const [recentLoading, setRecentLoading] = useState(false);
   const [topViewedBlogs, setTopViewedBlogs] = useState<TopViewedBlog[]>([]);
   const [topViewedLoading, setTopViewedLoading] = useState(false);
+  const [blogs, setBlogs] = useState<TopViewedBlog[]>([]);
 
   useEffect(() => {
     // Check if already authenticated from localStorage
@@ -83,6 +84,7 @@ export default function AdminPage() {
       if (response.ok) {
         const data = await response.json();
         setTopViewedBlogs(data);
+        setBlogs(data);
       }
     } catch (error) {
       console.error('Failed to fetch top viewed blogs:', error);
