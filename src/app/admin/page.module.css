@@ -1,0 +1,227 @@
+/* Admin Page Styles */
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FAFAFB 0%, #F2F6FA 100%);
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loginContainer {
+  max-width: 400px;
+  margin: 4rem auto;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.loginTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2C3E50;
+  margin-bottom: 0.5rem;
+}
+
+.loginSubtitle {
+  color: #6C7A89;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.passwordInput {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid #E1E8ED;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+  background: white;
+}
+
+.passwordInput:focus {
+  outline: none;
+  border-color: #2E86AB;
+  box-shadow: 0 0 0 3px rgba(46, 134, 171, 0.1);
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: #2E86AB;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submitButton:hover {
+  background: #246C88;
+}
+
+.errorMessage {
+  color: #E74C3C;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Admin Panel Styles */
+.adminPanel {
+  max-width: 800px;
+  margin: 4rem auto;
+  background: white;
+  padding: 3rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.panelTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2C3E50;
+  margin-bottom: 0.5rem;
+}
+
+.panelSubtitle {
+  color: #6C7A89;
+  font-size: 1.125rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.createButton {
+  display: inline-block;
+  padding: 0.875rem 2rem;
+  background: #2E86AB;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.createButton:hover {
+  background: #246C88;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logoutButton {
+  padding: 0.875rem 2rem;
+  background: #E74C3C;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logoutButton:hover {
+  background: #C0392B;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Stats Section */
+.statsSection {
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid #E1E8ED;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.statCard {
+  background: #F8F9FA;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.statNumber {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2E86AB;
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  color: #6C7A89;
+  font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page {
+    padding: 1rem 0.5rem;
+  }
+
+  .loginContainer,
+  .adminPanel {
+    margin: 2rem auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .loginTitle,
+  .panelTitle {
+    font-size: 1.875rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .createButton,
+  .logoutButton {
+    text-align: center;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginContainer,
+  .adminPanel {
+    padding: 1.5rem 1rem;
+  }
+
+  .panelTitle {
+    font-size: 1.75rem;
+  }
+}
