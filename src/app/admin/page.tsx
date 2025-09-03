@@ -16,6 +16,15 @@ export default function AdminPage() {
   const [error, setError] = useState("");
   const [blogStats, setBlogStats] = useState({ totalBlogs: 0 });
   const [loading, setLoading] = useState(false);
+  interface RecentBlog {
+    id: string;
+    title: string;
+    createdAt: string;
+    timeAgo: string;
+  }
+
+  const [recentBlogs, setRecentBlogs] = useState<RecentBlog[]>([]);
+  const [recentLoading, setRecentLoading] = useState(false);
 
   useEffect(() => {
     // Check if already authenticated from localStorage
@@ -23,6 +32,7 @@ export default function AdminPage() {
     if (authStatus === "true") {
       setIsAuthenticated(true);
       fetchBlogStats();
+      fetchRecentBlogs();
     }
   }, []);
 
@@ -41,6 +51,21 @@ export default function AdminPage() {
     }
   };
 
+  const fetchRecentBlogs = async () => {
+    try {
+      setRecentLoading(true);
+      const response = await fetch('/api/blogs/recent');
+      if (response.ok) {
+        const data = await response.json();
+        setRecentBlogs(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch recent blogs:', error);
+    } finally {
+      setRecentLoading(false);
+    }
+  };
+
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
@@ -48,6 +73,7 @@ export default function AdminPage() {
       localStorage.setItem("adminAuthenticated", "true");
       setError("");
       fetchBlogStats();
+      fetchRecentBlogs();
     } else {
       setError("Incorrect password. Please try again.");
       setPassword("");
@@ -129,13 +155,19 @@ export default function AdminPage() {
             <div className={styles.recentActivity}>
               <h2 className={styles.sectionTitle}>Recent Activity</h2>
               <div className={styles.activityList}>
-                <div className={styles.activityItem}>
-                  <div className={styles.activityIcon}>📝</div>
-                  <div className={styles.activityContent}>
-                    <p className={styles.activityText}>New blog post "Insurance Trends 2024" published</p>
-                    <p className={styles.activityTime}>2 hours ago</p>
+                {recentLoading ? (
+                  <p>Loading recent blog post...</p>
+                ) : recentBlogs.length > 0 ? (
+                  <div className={styles.activityItem}>
+                    <div className={styles.activityIcon}>📝</div>
+                    <div className={styles.activityContent}>
+                      <p className={styles.activityText}>{recentBlogs[0].title}</p>
+                      <p className={styles.activityTime}>{recentBlogs[0].timeAgo}</p>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <p>No recent blog posts available.</p>
+                )}
               </div>
             </div>
           </div>
