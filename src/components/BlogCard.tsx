@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./BlogCard.module.css";
 
@@ -10,6 +13,33 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ id, title, headline, imageId, createdAt }: BlogCardProps) {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Check if user is admin
+    const adminStatus = localStorage.getItem("adminAuthenticated");
+    setIsAdmin(adminStatus === "true");
+  }, []);
+
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this blog post?")) {
+      try {
+        const response = await fetch(`/api/blogs/${id}`, {
+          method: "DELETE",
+        });
+
+        if (response.ok) {
+          alert("Blog deleted successfully!");
+          window.location.reload(); // Refresh the page to update the list
+        } else {
+          alert("Failed to delete blog");
+        }
+      } catch (error) {
+        alert("Error deleting blog");
+      }
+    }
+  };
+
   return (
     <div className={styles.card}>
       {/* Left: Image */}
@@ -31,6 +61,16 @@ export default function BlogCard({ id, title, headline, imageId, createdAt }: Bl
             })}
           </span>
 
+          {isAdmin && (
+            <div className={styles.adminActions}>
+              <Link href={`/edit-blog/${id}`} className={styles.editButton}>
+                Edit
+              </Link>
+              <button onClick={handleDelete} className={styles.deleteButton}>
+                Delete
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
