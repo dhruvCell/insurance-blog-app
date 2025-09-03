@@ -63,6 +63,30 @@
   /* Admin Actions */
   .adminActions {
     display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .viewCount {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .viewIcon {
+    font-size: 0.9rem;
+  }
+
+  .viewText {
+    color: #1e293b;
+    font-weight: 600;
+  }
+
+  .actionButtons {
+    display: flex;
     gap: 0.5rem;
   }
 

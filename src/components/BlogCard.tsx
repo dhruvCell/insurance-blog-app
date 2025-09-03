@@ -10,9 +10,10 @@ interface BlogCardProps {
   headline: string;
   imageId: string;
   createdAt: string;
+  viewCount?: number;
 }
 
-export default function BlogCard({ id, title, headline, imageId, createdAt }: BlogCardProps) {
+export default function BlogCard({ id, title, headline, imageId, createdAt, viewCount = 0 }: BlogCardProps) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -63,12 +64,18 @@ export default function BlogCard({ id, title, headline, imageId, createdAt }: Bl
 
           {isAdmin && (
             <div className={styles.adminActions}>
-              <Link href={`/edit-blog/${id}`} className={styles.editButton}>
-                Edit
-              </Link>
-              <button onClick={handleDelete} className={styles.deleteButton}>
-                Delete
-              </button>
+              <div className={styles.viewCount}>
+                <span className={styles.viewIcon}>👁️</span>
+                <span className={styles.viewText}>{viewCount} views</span>
+              </div>
+              <div className={styles.actionButtons}>
+                <Link href={`/edit-blog/${id}`} className={styles.editButton}>
+                  Edit
+                </Link>
+                <button onClick={handleDelete} className={styles.deleteButton}>
+                  Delete
+                </button>
+              </div>
             </div>
           )}
         </div>

@@ -9,6 +9,7 @@ export interface IBlog extends Document {
   createdAt: Date;
   updatedAt: Date;
   slug: string;
+  viewCount: number; // Number of times the blog has been viewed
 }
 
 const BlogSchema: Schema = new Schema(
@@ -40,6 +41,10 @@ const BlogSchema: Schema = new Schema(
       required: true,
       unique: true,
       trim: true,
+    },
+    viewCount: {
+      type: Number,
+      default: 0,
     },
   },
   {

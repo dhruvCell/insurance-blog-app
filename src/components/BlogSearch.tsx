@@ -14,6 +14,7 @@ interface Blog {
   createdAt: string;
   updatedAt: string;
   slug: string;
+  viewCount: number;
 }
 
 export default function BlogSearch() {
@@ -96,6 +97,7 @@ export default function BlogSearch() {
               headline={blog.headline}
               imageId={blog.imageId}
               createdAt={blog.createdAt}
+              viewCount={blog.viewCount || 0}
             />
           ))
         ) : (

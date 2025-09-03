@@ -10,7 +10,13 @@ export async function GET(
     await connectToDatabase();
 
     const { id } = params;
-    const blog = await Blog.findById(id).lean();
+
+    // Increment view count and fetch the blog
+    const blog = await Blog.findByIdAndUpdate(
+      id,
+      { $inc: { viewCount: 1 } },
+      { new: true }
+    ).lean();
 
     if (!blog) {
       return NextResponse.json(

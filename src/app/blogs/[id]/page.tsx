@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/mongodb";
 import Blog from "@/lib/models/Blog";
 import Link from "next/link";
+import AdminActions from "@/components/AdminActions";
 import styles from "./page.module.css";
 
 interface BlogPageProps {
@@ -14,6 +15,10 @@ export const revalidate = 10; // ISR: revalidate every 10 seconds
 export default async function BlogPage({ params }: BlogPageProps) {
   const { id } = await params;
   await dbConnect();
+
+  // Increment viewCount before fetching blog
+  await Blog.findByIdAndUpdate(id, { $inc: { viewCount: 1 } });
+
   const blog = await Blog.findById(id).lean();
 
   if (!blog) {
@@ -79,6 +84,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
         <article className={styles.articleContent}>
           <div dangerouslySetInnerHTML={{ __html: blogData.content }} />
         </article>
+
+        {/* Admin Actions */}
+        <AdminActions blogId={blogData._id.toString()} viewCount={blogData.viewCount || 0} />
 
         {/* Back to Blogs */}
         <div className={styles.backSection}>
