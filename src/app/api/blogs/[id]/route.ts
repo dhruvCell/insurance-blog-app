@@ -11,12 +11,23 @@ export async function GET(
 
     const { id } = params;
 
-    // Increment view count and fetch the blog
-    const blog = await Blog.findByIdAndUpdate(
-      id,
-      { $inc: { viewCount: 1 } },
-      { new: true }
-    ).lean();
+    // Check if request is from admin via "x-admin" header
+    const isAdminHeader = request.headers.get("x-admin");
+    const isAdmin = isAdminHeader === "true";
+
+    let blog;
+
+    if (isAdmin) {
+      // Fetch blog without incrementing viewCount
+      blog = await Blog.findById(id).lean();
+    } else {
+      // Increment view count and fetch the blog
+      blog = await Blog.findByIdAndUpdate(
+        id,
+        { $inc: { viewCount: 1 } },
+        { new: true }
+      ).lean();
+    }
 
     if (!blog) {
       return NextResponse.json(

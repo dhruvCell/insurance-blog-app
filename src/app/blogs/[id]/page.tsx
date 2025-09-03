@@ -1,8 +1,10 @@
-import dbConnect from "@/lib/mongodb";
-import Blog from "@/lib/models/Blog";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import AdminActions from "@/components/AdminActions";
 import styles from "./page.module.css";
+import { useParams } from "next/navigation";
 
 interface BlogPageProps {
   params: {
@@ -10,34 +12,34 @@ interface BlogPageProps {
   };
 }
 
-export const revalidate = 10; // ISR: revalidate every 10 seconds
+export default function BlogPage({ params }: BlogPageProps) {
+  const { id } = useParams<{ id: string }>();
+  const [blog, setBlog] = useState<any>(null);
 
-export default async function BlogPage({ params }: BlogPageProps) {
-  const { id } = await params;
-  await dbConnect();
+  useEffect(() => {
+    const fetchBlog = async () => {
+      const isAdmin = localStorage.getItem("adminAuthenticated") === "true";
 
-  // Increment viewCount before fetching blog
-  await Blog.findByIdAndUpdate(id, { $inc: { viewCount: 1 } });
+      const res = await fetch(`/api/blogs/${id}`, {
+        headers: {
+          "x-admin": isAdmin.toString(),
+        },
+      });
 
-  const blog = await Blog.findById(id).lean();
+      if (res.ok) {
+        const data = await res.json();
+        setBlog(data);
+      } else {
+        // handle error
+      }
+    };
+
+    fetchBlog();
+  }, [id]);
 
   if (!blog) {
-    return (
-      <div className={styles.notFound}>
-        <div>
-          <h1 className={styles.notFoundTitle}>Blog Not Found</h1>
-          <p className={styles.notFoundText}>
-            The blog post you're looking for doesn't exist.
-          </p>
-          <Link href="/blogs" className={styles.notFoundButton}>
-            Back to Blogs
-          </Link>
-        </div>
-      </div>
-    );
+    return <div>Loading...</div>;
   }
-
-  const blogData = blog as any;
 
   return (
     <main className={styles.page}>
@@ -52,17 +54,17 @@ export default async function BlogPage({ params }: BlogPageProps) {
             Blogs
           </Link>
           <span className={styles.breadcrumbSeparator}>/</span>
-          <span className={styles.breadcrumbCurrent}>{blogData.slug}</span>
+          <span className={styles.breadcrumbCurrent}>{blog.slug}</span>
         </nav>
 
         {/* Article Header */}
         <header className={styles.articleHeader}>
-          <h1 className={styles.articleTitle}>{blogData.title}</h1>
-          <p className={styles.articleSubtitle}>{blogData.headline}</p>
+          <h1 className={styles.articleTitle}>{blog.title}</h1>
+          <p className={styles.articleSubtitle}>{blog.headline}</p>
           <div className={styles.articleMeta}>
             <span>
               Published on{" "}
-              {new Date(blogData.createdAt).toLocaleDateString("en-US", {
+              {new Date(blog.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -74,19 +76,25 @@ export default async function BlogPage({ params }: BlogPageProps) {
         {/* Featured Image */}
         <div className={styles.featuredImageContainer}>
           <img
-            src={blogData.imageId && typeof blogData.imageId === 'string' && !blogData.imageId.startsWith('data:') ? `/api/images/${blogData.imageId}` : (blogData.image || (blogData.imageId ? `/api/images/${blogData.imageId}` : ''))}
-            alt={blogData.title}
+            src={
+              blog.imageId &&
+              typeof blog.imageId === "string" &&
+              !blog.imageId.startsWith("data:")
+                ? `/api/images/${blog.imageId}`
+                : blog.image || (blog.imageId ? `/api/images/${blog.imageId}` : "")
+            }
+            alt={blog.title}
             className={styles.featuredImage}
           />
         </div>
 
         {/* Article Content */}
         <article className={styles.articleContent}>
-          <div dangerouslySetInnerHTML={{ __html: blogData.content }} />
+          <div dangerouslySetInnerHTML={{ __html: blog.content }} />
         </article>
 
         {/* Admin Actions */}
-        <AdminActions blogId={blogData._id.toString()} viewCount={blogData.viewCount || 0} />
+        <AdminActions blogId={blog._id.toString()} viewCount={blog.viewCount || 0} />
 
         {/* Back to Blogs */}
         <div className={styles.backSection}>
