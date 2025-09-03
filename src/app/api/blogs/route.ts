@@ -3,6 +3,7 @@ import dbConnect from "@/lib/mongodb";
 import Blog from "@/lib/models/Blog";
 import mongoose from "mongoose";
 import { generateUniqueSlug, isValidSlug } from "@/lib/utils";
+import sharp from "sharp";
 
 export async function GET() {
   try {
@@ -53,13 +54,36 @@ export async function POST(request: NextRequest) {
 
     console.log("Final slug to be used:", finalSlug);
 
-    // Validate base64 image size (max 25MB)
-    if (image && image.length > 25 * 1024 * 1024 * 1.37) {
-      return NextResponse.json({ error: "Image size exceeds 25MB limit" }, { status: 400 });
+    // Validate base64 image size (max 1MB)
+    if (image && image.length > 1 * 1024 * 1024 * 1.37) {
+      // Compress the image to approximately 1MB using sharp
+      const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+      const buffer = Buffer.from(base64Data, "base64");
+
+      let compressedBuffer = await sharp(buffer)
+        .resize({ width: 800, withoutEnlargement: true })
+        .jpeg({ quality: 50, progressive: true })
+        .toBuffer();
+
+      const maxSize = 1024 * 1024; // 1MB
+      if (compressedBuffer.length > maxSize) {
+        compressedBuffer = await sharp(buffer)
+          .resize({ width: 600, withoutEnlargement: true })
+          .jpeg({ quality: 30, progressive: true })
+          .toBuffer();
+      }
+
+      // Convert compressed buffer back to base64 string
+      const compressedBase64 = compressedBuffer.toString("base64");
+      const compressedImage = `data:image/jpeg;base64,${compressedBase64}`;
+
+      // Replace original image with compressed image
+      body.image = compressedImage;
+      body.imageType = "image/jpeg";
     }
 
     // Convert base64 image to buffer
-    const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+    const base64Data = body.image.replace(/^data:image\/\w+;base64,/, "");
     const imgBuffer = Buffer.from(base64Data, "base64");
 
     // Store image in GridFS

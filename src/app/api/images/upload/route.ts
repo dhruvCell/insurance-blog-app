@@ -19,11 +19,20 @@ export async function POST(request: NextRequest) {
     const data = await request.arrayBuffer();
     const buffer = Buffer.from(data);
 
-    // Compress the image using sharp (resize and reduce quality)
-    const compressedBuffer = await sharp(buffer)
-      .resize({ width: 1024, withoutEnlargement: true }) // Resize to max width 1024px
-      .jpeg({ quality: 70 }) // Compress JPEG quality to 70%
+    // Compress the image using sharp (resize and reduce quality to target ~1MB)
+    let compressedBuffer = await sharp(buffer)
+      .resize({ width: 800, withoutEnlargement: true }) // Resize to max width 800px
+      .jpeg({ quality: 50, progressive: true }) // Compress JPEG quality to 50% with progressive loading
       .toBuffer();
+
+    // If still over 1MB, compress further
+    const maxSize = 1024 * 1024; // 1MB
+    if (compressedBuffer.length > maxSize) {
+      compressedBuffer = await sharp(buffer)
+        .resize({ width: 600, withoutEnlargement: true }) // Smaller width
+        .jpeg({ quality: 30, progressive: true }) // Lower quality
+        .toBuffer();
+    }
 
     // Create upload stream to GridFS
     const uploadStream = bucket.openUploadStream("compressed-image.jpg", {
