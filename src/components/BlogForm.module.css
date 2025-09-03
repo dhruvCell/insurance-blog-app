@@ -86,13 +86,7 @@
   background: hsl(0, 0%, 98%);
 }
 
-.quillEditor .ql-container {
-  border: none;
-  min-height: 500px; /* more space for content */
-  max-height: 80vh; /* prevents overflowing entire page */
-  font-size: 1rem;
-  line-height: 1.6;
-}
+
 
 .quillEditor .ql-editor {
   padding: 1.5rem;
@@ -121,7 +115,10 @@
 .quillEditor .ql-toolbar .ql-active {
   color: hsl(221, 83%, 53%);
 }
-
+.quillEditor{
+  border-bottom: 1px solid #ccc;
+  height: 400px !important;
+}
 /* Mode Toggle */
 .modeToggle {
   display: flex;
@@ -156,7 +153,7 @@
 /* HTML Textarea */
 .htmlTextarea {
   width: 100%;
-  min-height: 300px;
+  height: 400px;
   padding: 1rem;
   border: 1px solid hsl(214, 32%, 91%);
   border-radius: 0.5rem;
