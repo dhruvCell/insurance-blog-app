@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./AdminActions.module.css";
+import Modal from "./Modal";
 
 interface AdminActionsProps {
   blogId: string;
@@ -11,7 +12,8 @@ interface AdminActionsProps {
 
 export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     // Check if user is authenticated as admin
@@ -19,10 +21,13 @@ export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
     setIsAdmin(adminAuth === "true");
   }, []);
 
-  const handleDelete = async () => {
-    if (!confirm("Are you sure you want to delete this blog?")) {
-      return;
-    }
+  const handleDelete = () => {
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    setIsDeleting(true);
+    setShowDeleteModal(false);
 
     try {
       const response = await fetch(`/api/blogs/${blogId}`, {
@@ -39,7 +44,13 @@ export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
     } catch (error) {
       console.error("Error deleting blog:", error);
       alert("Failed to delete blog");
+    } finally {
+      setIsDeleting(false);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
   };
 
   if (!isAdmin) {
@@ -47,26 +58,39 @@ export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
   }
 
   return (
-    <div className={styles.adminActions}>
-      <div className={styles.viewCount}>
-        <span className={styles.viewIcon}>👁️</span>
-        <span className={styles.viewText}>{viewCount} views</span>
+    <>
+      <div className={styles.adminActions}>
+        <div className={styles.viewCount}>
+          <span className={styles.viewIcon}>👁️</span>
+          <span className={styles.viewText}>{viewCount} views</span>
+        </div>
+
+        <div className={styles.actionButtons}>
+          <Link
+            href={`/edit-blog/${blogId}`}
+            className={styles.editButton}
+          >
+            Edit
+          </Link>
+          <button
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className={styles.deleteButton}
+          >
+            {isDeleting ? "Deleting..." : "Delete"}
+          </button>
+        </div>
       </div>
 
-      <div className={styles.actionButtons}>
-        <Link
-          href={`/edit-blog/${blogId}`}
-          className={styles.editButton}
-        >
-          Edit
-        </Link>
-        <button
-          onClick={handleDelete}
-          className={styles.deleteButton}
-        >
-          Delete
-        </button>
-      </div>
-    </div>
+      {showDeleteModal && (
+        <Modal
+          title="Confirm Delete"
+          message="Are you sure you want to delete this blog? This action cannot be undone."
+          onCancel={cancelDelete}
+          onConfirm={confirmDelete}
+          isLoading={isDeleting}
+        />
+      )}
+    </>
   );
 }

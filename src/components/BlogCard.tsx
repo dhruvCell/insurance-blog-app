@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./BlogCard.module.css";
+import Modal from "./Modal";
+import AdminActions from "./AdminActions";
 
 interface BlogCardProps {
   id: string;
@@ -17,6 +19,7 @@ interface BlogCardProps {
 export default function BlogCard({ id, title, headline, imageId, createdAt, viewCount = 0, onDelete }: BlogCardProps) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     // Check if user is admin
@@ -24,69 +27,64 @@ export default function BlogCard({ id, title, headline, imageId, createdAt, view
     setIsAdmin(adminStatus === "true");
   }, []);
 
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this blog post?")) {
-      try {
-        setIsDeleting(true);
-        const response = await fetch(`/api/blogs/${id}`, {
-          method: "DELETE",
-        });
+  const handleDelete = () => {
+    setShowDeleteModal(true);
+  };
 
-        if (response.ok) {
-          alert("Blog deleted successfully!");
-          if (onDelete) {
-            onDelete(id);
-          }
-        } else {
-          alert("Failed to delete blog");
+  const confirmDelete = async () => {
+    setIsDeleting(true);
+    setShowDeleteModal(false);
+
+    try {
+      const response = await fetch(`/api/blogs/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        alert("Blog deleted successfully!");
+        if (onDelete) {
+          onDelete(id);
         }
-      } catch (error) {
-        alert("Error deleting blog");
-      } finally {
-        setIsDeleting(false);
+      } else {
+        alert("Failed to delete blog");
       }
+    } catch (error) {
+      alert("Error deleting blog");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+  };
+
   return (
-    <div className={styles.card}>
-      {/* Left: Image */}
-      <div className={styles.cardImageContainer}>
-        <img src={typeof imageId === 'string' && imageId.startsWith('data:') ? imageId : `/api/images/${imageId}`} alt={title} className={styles.cardImage} />
-      </div>
+    <>
+      <div className={styles.card}>
+        {/* Left: Image */}
+        <div className={styles.cardImageContainer}>
+          <img src={typeof imageId === 'string' && imageId.startsWith('data:') ? imageId : `/api/images/${imageId}`} alt={title} className={styles.cardImage} />
+        </div>
 
-      {/* Right: Content */}
-      <div className={styles.cardContent}>
-        <Link href={`/blogs/${id}`} className={styles.cardOverlay} aria-label={`Read more about ${title}`}>{title}</Link>
-        <p className={styles.cardExcerpt}>{headline}</p>
+        {/* Right: Content */}
+        <div className={styles.cardContent}>
+          <Link href={`/blogs/${id}`} className={styles.cardOverlay} aria-label={`Read more about ${title}`}>{title}</Link>
+          <p className={styles.cardExcerpt}>{headline}</p>
 
-        <div className={styles.cardMeta}>
-          <span className={styles.cardDate}>
-            {new Date(createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </span>
+          <div className={styles.cardMeta}>
+            <span className={styles.cardDate}>
+              {new Date(createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
 
-            <div className={styles.adminActions}>
-              <div className={styles.viewCount}>
-                <span className={styles.viewIcon}>👁️</span>
-                <span className={styles.viewText}>{viewCount} views</span>
-              </div>
-          {isAdmin && (
-              <div className={styles.actionButtons}>
-                <Link href={`/edit-blog/${id}`} className={styles.editButton}>
-                  Edit
-                </Link>
-                <button onClick={handleDelete} className={styles.deleteButton} disabled={isDeleting}>
-                  {isDeleting ? "Deleting..." : "Delete"}
-                </button>
-              </div>
-          )}
-            </div>
+          </div>
+            <AdminActions blogId={id} viewCount={viewCount}/>
         </div>
       </div>
-    </div>
+    </>
   );
 }
