@@ -80,9 +80,12 @@ export default function BlogCard({ id, title, headline, imageId, createdAt, view
                 day: "numeric",
               })}
             </span>
-
+            <div className={styles.viewCount}>
+              <span className={styles.viewIcon}>👁️</span>
+              <span className={styles.viewText}>{viewCount} views</span>
+              <AdminActions blogId={id} viewCount={viewCount}/>
+            </div>
           </div>
-            <AdminActions blogId={id} viewCount={viewCount}/>
         </div>
       </div>
     </>

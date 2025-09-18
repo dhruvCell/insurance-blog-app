@@ -60,11 +60,6 @@ export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
   return (
     <>
       <div className={styles.adminActions}>
-        <div className={styles.viewCount}>
-          <span className={styles.viewIcon}>👁️</span>
-          <span className={styles.viewText}>{viewCount} views</span>
-        </div>
-
         <div className={styles.actionButtons}>
           <Link
             href={`/edit-blog/${blogId}`}
