@@ -87,6 +87,15 @@ export default function BlogCard({ id, title, headline, imageId, createdAt, view
             </div>
           </div>
         </div>
+        {showDeleteModal && (
+        <Modal
+          title="Confirm Delete"
+          message="Are you sure you want to delete this blog? This action cannot be undone."
+          onCancel={cancelDelete}
+          onConfirm={confirmDelete}
+          isLoading={isDeleting}
+        />
+      )}
       </div>
     </>
   );

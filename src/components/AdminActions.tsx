@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./AdminActions.module.css";
 import Modal from "./Modal";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface AdminActionsProps {
   blogId: string;
@@ -11,9 +13,11 @@ interface AdminActionsProps {
 }
 
 export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
+  const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     // Check if user is authenticated as admin
@@ -53,6 +57,11 @@ export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
     setShowDeleteModal(false);
   };
 
+  const handleEdit = () => {
+    setIsEditing(true);
+    router.push(`/edit-blog/${blogId}`);
+  };
+
   if (!isAdmin) {
     return null;
   }
@@ -61,12 +70,20 @@ export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
     <>
       <div className={styles.adminActions}>
         <div className={styles.actionButtons}>
-          <Link
-            href={`/edit-blog/${blogId}`}
+          <button
+            onClick={handleEdit}
+            disabled={isEditing}
             className={styles.editButton}
           >
-            Edit
-          </Link>
+            {isEditing ? (
+              <>
+                <LoadingSpinner size="small" className={styles.loadingSpinner} />
+                Editing...
+              </>
+            ) : (
+              "Edit"
+            )}
+          </button>
           <button
             onClick={handleDelete}
             disabled={isDeleting}
@@ -74,18 +91,9 @@ export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </button>
+          
         </div>
       </div>
-
-      {showDeleteModal && (
-        <Modal
-          title="Confirm Delete"
-          message="Are you sure you want to delete this blog? This action cannot be undone."
-          onCancel={cancelDelete}
-          onConfirm={confirmDelete}
-          isLoading={isDeleting}
-        />
-      )}
     </>
   );
 }

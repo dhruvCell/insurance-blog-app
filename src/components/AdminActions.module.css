@@ -43,10 +43,19 @@
   cursor: pointer;
 }
 
-.editButton:hover {
+.editButton:hover:not(:disabled) {
   background: #2563eb;
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.editButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loadingSpinner {
+  margin-right: 0.5rem;
 }
 
 .deleteButton {

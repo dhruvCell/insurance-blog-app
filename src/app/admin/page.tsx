@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import styles from "./page.module.css";
@@ -12,6 +13,7 @@ if (!ADMIN_PASSWORD) {
 }
 
 export default function AdminPage() {
+  const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -35,6 +37,8 @@ export default function AdminPage() {
   const [topViewedBlogs, setTopViewedBlogs] = useState<TopViewedBlog[]>([]);
   const [topViewedLoading, setTopViewedLoading] = useState(false);
   const [blogs, setBlogs] = useState<TopViewedBlog[]>([]);
+  const [isCreatingBlog, setIsCreatingBlog] = useState(false);
+  const [isManagingBlogs, setIsManagingBlogs] = useState(false);
 
   useEffect(() => {
     // Check if already authenticated from localStorage
@@ -161,21 +165,47 @@ export default function AdminPage() {
             <div className={styles.quickActions}>
               <h2 className={styles.sectionTitle}>Quick Actions</h2>
               <div className={styles.actionGrid}>
-                <Link href="/create-blog" className={styles.actionCard}>
+                <button
+                  className={styles.actionCard}
+                  onClick={() => {
+                    setIsCreatingBlog(true);
+                    router.push("/create-blog");
+                  }}
+                  disabled={isCreatingBlog}
+                >
                   <div className={styles.actionIcon}>✏️</div>
                   <div className={styles.actionContent}>
                     <h3 className={styles.actionTitle}>Create New Blog</h3>
                     <p className={styles.actionDescription}>Write and publish a new blog post to engage your audience</p>
                   </div>
-                </Link>
+                  {isCreatingBlog && (
+                    <div className="loadingOverlay">
+                      <LoadingSpinner size="small" />
+                      Creating...
+                    </div>
+                  )}
+                </button>
 
-                <Link href="/blogs" className={styles.actionCard}>
+                <button
+                  className={styles.actionCard}
+                  onClick={() => {
+                    setIsManagingBlogs(true);
+                    router.push("/blogs");
+                  }}
+                  disabled={isManagingBlogs}
+                >
                   <div className={styles.actionIcon}>📝</div>
                   <div className={styles.actionContent}>
                     <h3 className={styles.actionTitle}>Manage Blogs</h3>
                     <p className={styles.actionDescription}>Edit, delete, or review existing blog posts</p>
                   </div>
-                </Link>
+                  {isManagingBlogs && (
+                    <div className="loadingOverlay">
+                      <LoadingSpinner size="small" />
+                      Loading...
+                    </div>
+                  )}
+                </button>
               </div>
             </div>
 
