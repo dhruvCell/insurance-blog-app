@@ -1,10 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import styles from "./BlogCard.module.css";
+import adminStyles from "./AdminActions.module.css";
 import Modal from "./Modal";
-import AdminActions from "./AdminActions";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface BlogCardProps {
   id: string;
@@ -17,9 +20,11 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ id, title, headline, imageId, createdAt, viewCount = 0, onDelete }: BlogCardProps) {
+  const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     // Check if user is admin
@@ -59,6 +64,11 @@ export default function BlogCard({ id, title, headline, imageId, createdAt, view
     setShowDeleteModal(false);
   };
 
+  const handleEdit = () => {
+    setIsEditing(true);
+    router.push(`/edit-blog/${id}`);
+  };
+
   return (
     <>
       <div className={styles.card}>
@@ -83,19 +93,46 @@ export default function BlogCard({ id, title, headline, imageId, createdAt, view
             <div className={styles.viewCount}>
               <span className={styles.viewIcon}>👁️</span>
               <span className={styles.viewText}>{viewCount} views</span>
-              <AdminActions blogId={id} viewCount={viewCount}/>
+              {isAdmin && (
+                <div className={adminStyles.adminActions}>
+                  <div className={adminStyles.actionButtons}>
+                    <button
+                      onClick={handleEdit}
+                      disabled={isEditing}
+                      className={adminStyles.editButton}
+                    >
+                      {isEditing ? (
+                        <>
+                          <LoadingSpinner size="small" className={adminStyles.loadingSpinner} />
+                          Editing...
+                        </>
+                      ) : (
+                        "Edit"
+                      )}
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      disabled={isDeleting}
+                      className={adminStyles.deleteButton}
+                    >
+                      {isDeleting ? "Deleting..." : "Delete"}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        {showDeleteModal && (
-        <Modal
-          title="Confirm Delete"
-          message="Are you sure you want to delete this blog? This action cannot be undone."
-          onCancel={cancelDelete}
-          onConfirm={confirmDelete}
-          isLoading={isDeleting}
-        />
-      )}
+        {showDeleteModal && createPortal(
+          <Modal
+            title="Confirm Delete"
+            message="Are you sure you want to delete this blog? This action cannot be undone."
+            onCancel={cancelDelete}
+            onConfirm={confirmDelete}
+            isLoading={isDeleting}
+          />,
+          document.body
+        )}
       </div>
     </>
   );

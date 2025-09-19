@@ -22,6 +22,14 @@ export default function Modal({
   cancelText = "Cancel",
   isLoading = false,
 }: ModalProps) {
+  // Prevent background scrolling when modal is open
+  React.useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
     <div className={styles.modalOverlay} onClick={onCancel}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
