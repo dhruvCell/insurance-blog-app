@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import styles from "./AdminActions.module.css";
 import Modal from "./Modal";
@@ -91,9 +92,20 @@ export default function AdminActions({ blogId, viewCount }: AdminActionsProps) {
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </button>
-          
+
         </div>
       </div>
+
+      {showDeleteModal && createPortal(
+        <Modal
+          title="Confirm Delete"
+          message="Are you sure you want to delete this blog? This action cannot be undone."
+          onCancel={cancelDelete}
+          onConfirm={confirmDelete}
+          isLoading={isDeleting}
+        />,
+        document.body
+      )}
     </>
   );
 }
